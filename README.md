@@ -2,7 +2,7 @@
 
 ![Home Image](homepage.jpg)
 
-__Welcome to PayPal Java SDK. This repository contains PayPal's Java SDK for Payouts and samples for [v1/payments/payouts](https://developer.paypal.com/docs/api/payments.payouts-batch/v1/) APIs.
+__Welcome to PayPal Java SDK.__ This repository contains PayPal's Java SDK for Payouts and samples for [v1/payments/payouts](https://developer.paypal.com/docs/api/payments.payouts-batch/v1/) APIs.
 
 This is a part of the next major PayPal SDK. It includes a simplified interface to only provide simple model objects and blueprints for HTTP calls. This repo currently contains functionality for PayPal Payouts APIs which includes [Payouts](https://developer.paypal.com/docs/api/payments.payouts-batch/v1/).
 
