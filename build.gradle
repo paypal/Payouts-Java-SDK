@@ -1,0 +1,119 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+allprojects {
+    apply plugin: 'java'
+    group 'com.paypal.sdk'
+    version '1.0.0'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    test {
+        useTestNG {
+            testLogging.showStandardStreams = true
+            outputs.upToDateWhen { false }
+        }
+    }
+}
+project(':payouts-sdk') {
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile("com.paypal:paypalhttp:1.0.0")
+        testCompile group: 'org.testng', name: 'testng', version: '6.9.13.6'
+        testCompile "com.github.tomakehurst:wiremock:2.4.1"
+    }
+
+    apply plugin: 'maven'
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+
+    apply plugin: 'signing'
+    if (project.hasProperty('release')) {
+        signing {
+            sign configurations.archives
+        }
+
+        uploadArchives {
+            repositories.mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name 'payouts-sdk'
+                    groupId 'com.paypal.sdk'
+                    artifactId 'payouts-sdk'
+                    version '1.0.0'
+                    packaging 'jar'
+                    description 'PayPal SDK for integrating with the Payouts REST APIs'
+                    url 'https://github.com/paypal/Payouts-Java-SDK.git'
+
+                    scm {
+                        url 'https://github.com/paypal/Payouts-Java-SDK.git'
+                        connection 'scm:git:git://github.com/paypal/Payouts-Java-SDK.git'
+                    }
+
+                    licenses {
+                        license {
+                            name 'PayPal SDK License'
+                            url 'https://github.com/paypal/Payouts-Java-SDK/blob/master/LICENSE'
+                            distribution 'repo'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'DL-PP-JAVA-SDK'
+                            name 'DL-PP-JAVA-SDK'
+                            email 'dl-paypal-payouts-sdk@paypal.com'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+project("payouts-sdk-sample") {
+    apply plugin: 'java'
+    dependencies {
+        compile "org.apache.commons:commons-lang3:3.6"
+        compile group: 'org.json', name: 'json', version: '20180813'
+        compile project(':payouts-sdk')
+    }
+}
