@@ -1,0 +1,3 @@
+rootProject.name = 'Payouts-Java'
+include 'payouts-sdk'
+include 'payouts-sdk-sample'

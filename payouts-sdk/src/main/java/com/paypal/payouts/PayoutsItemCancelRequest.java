@@ -1,0 +1,29 @@
+// This class was generated on Mon, 16 Dec 2019 21:04:40 IST by version 0.1.0-dev+904328-dirty of Braintree SDK Generator
+// PayoutsItemCancelRequest.java
+// @version 0.1.0-dev+904328-dirty
+// @type request
+// @data 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
+// DO NOT EDIT
+package com.paypal.payouts;
+
+import com.paypal.http.HttpRequest;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+/**
+ * Cancels an unclaimed payout item, by ID. If no one claims the unclaimed item within 30 days, the API automatically returns the funds to the sender. Use this call to cancel the unclaimed item before the automatic 30-day refund. You can cancel payout items with a <code>transaction_status</code> of <code>UNCLAIMED</code>.
+ */
+public class PayoutsItemCancelRequest extends HttpRequest<PayoutItemResponse> {
+
+    public PayoutsItemCancelRequest(String payoutItemId) {
+        super("/v1/payments/payouts-item/{payout_item_id}/cancel?", "POST", PayoutItemResponse.class);
+        try {
+            path(path().replace("{payout_item_id}", URLEncoder.encode(String.valueOf(payoutItemId), "UTF-8")));
+        } catch (UnsupportedEncodingException ignored) {
+        }
+
+        header("Content-Type", "application/json");
+    }
+
+}

@@ -1,0 +1,6 @@
+---
+projectName: Payouts-Java
+language: java
+sourcePath: src/main/java/com/paypal
+testPath: src/test/java/com/paypal
+apiVersioning: false
