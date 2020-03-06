@@ -2,8 +2,4 @@ sudo: false
 language: java
 jdk:
   - openjdk8
-after_script: ./gradlew clean test
-notifications:
-  recipients:
-    - dl-paypal-payouts-sdk@paypal.com
-  on_success: change
+script: ./gradlew clean test
