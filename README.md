@@ -72,7 +72,7 @@ public class CreatePayoutExample {
                                 .value("1.00")))
                 .collect(Collectors.toList());
 
-        CreatePayoutsRequest request = CreatePayoutRequest()
+        CreatePayoutRequest request = new CreatePayoutRequest()
                 .senderBatchHeader(new SenderBatchHeader()
                         .senderBatchId("Test_sdk_" + RandomStringUtils.randomAlphanumeric(7))
                         .emailMessage("SDK payouts test txn")
