@@ -83,7 +83,8 @@ public class CreatePayoutExample {
 
 		try {
 			// Call API with your client and get a response for your call
-			HttpResponse<CreatePayoutResponse> response = Credentials.client.execute(request);
+			PayoutsPostRequest httpRequest = new PayoutsPostRequest().requestBody(request);
+			HttpResponse<CreatePayoutResponse> response = Credentials.client.execute(httpRequest);
 
 			// If call returns body in response, you can get the de-serialized version by
 			// calling result() on the response
