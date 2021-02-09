@@ -72,7 +72,7 @@ public class CreatePayoutExample {
                                 .value("1.00")))
                 .collect(Collectors.toList());
 
-        CreatePayoutsRequest request = CreatePayoutRequest()
+        CreatePayoutRequest request = new CreatePayoutRequest()
                 .senderBatchHeader(new SenderBatchHeader()
                         .senderBatchId("Test_sdk_" + RandomStringUtils.randomAlphanumeric(7))
                         .emailMessage("SDK payouts test txn")
@@ -83,7 +83,8 @@ public class CreatePayoutExample {
 
 		try {
 			// Call API with your client and get a response for your call
-			HttpResponse<CreatePayoutResponse> response = Credentials.client.execute(request);
+			PayoutsPostRequest httpRequest = new PayoutsPostRequest().requestBody(request);
+			HttpResponse<CreatePayoutResponse> response = Credentials.client.execute(httpRequest);
 
 			// If call returns body in response, you can get the de-serialized version by
 			// calling result() on the response
