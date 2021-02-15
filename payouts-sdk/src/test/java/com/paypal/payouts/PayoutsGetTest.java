@@ -1,16 +1,22 @@
 package com.paypal.payouts;
 
 import com.paypal.TestHarness;
+import com.paypal.http.Encoder;
 import com.paypal.http.HttpClient;
 import com.paypal.http.HttpResponse;
+import com.paypal.http.exceptions.HttpException;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 public class PayoutsGetTest extends TestHarness {
+
+    private static final Encoder encoder = new Encoder();
 
     public static HttpResponse<PayoutBatch> getPayouts(HttpClient client, String batchId) throws IOException {
         PayoutsGetRequest request = new PayoutsGetRequest(batchId)
@@ -23,7 +29,7 @@ public class PayoutsGetTest extends TestHarness {
 
     @Test
     public void testPayoutsGetRequest() throws IOException {
-        HttpResponse<CreatePayoutResponse> createResponse = PayoutsPostTest.createPayouts(client());
+        HttpResponse<CreatePayoutResponse> createResponse = PayoutsPostTest.createPayouts(client(), false);
         assertEquals(createResponse.statusCode(), 201);
         assertNotNull(createResponse.result());
 
@@ -49,6 +55,23 @@ public class PayoutsGetTest extends TestHarness {
         assertEquals(firstPayout.payoutItem().amount().currency(), "USD");
         assertEquals(firstPayout.payoutItem().senderItemId(), "Test_txn_1");
         assertEquals(firstPayout.payoutItem().receiver(), "payout-sdk-1@paypal.com");
+    }
+
+
+    @Test
+    public void testPayoutsGetRequestFailure() throws IOException {
+        try {
+            getPayouts(client(), "DUMMY");
+        } catch (HttpException e) {
+            String error = e.getMessage();
+            Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
+            assertNotNull(payoutError.debugId());
+            assertNotNull(payoutError.name());
+            assertEquals(payoutError.name(), "INVALID_RESOURCE_ID");
+            assertNotNull(payoutError.message());
+            assertNotNull(payoutError.informationLink());
+            assertEquals(payoutError.informationLink(), "https://developer.paypal.com/docs/api/payments.payouts-batch/#errors");
+        }
     }
 
 }
