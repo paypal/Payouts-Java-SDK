@@ -36,21 +36,6 @@ public class PayoutHeader {
     }
 
     /**
-     * The error information.
-     */
-    @SerializedName("errors")
-    private Error errors;
-
-    public Error errors() {
-        return errors;
-    }
-
-    public PayoutHeader errors(Error errors) {
-        this.errors = errors;
-        return this;
-    }
-
-    /**
      * REQUIRED
      * The PayPal-generated ID for a payout.
      */

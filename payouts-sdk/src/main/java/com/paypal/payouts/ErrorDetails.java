@@ -50,4 +50,20 @@ public class ErrorDetails {
         this.issue = issue;
         return this;
     }
+
+    /**
+     * REQUIRED
+     * The reason for the error.
+     */
+    @SerializedName("location")
+    private String location;
+
+    public String location() {
+        return issue;
+    }
+
+    public ErrorDetails location(String location) {
+        this.location = location;
+        return this;
+    }
 }

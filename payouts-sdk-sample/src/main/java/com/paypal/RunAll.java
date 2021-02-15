@@ -38,6 +38,10 @@ public class RunAll {
                             HttpResponse<PayoutItemResponse> cancelResponse = new CancelPayoutItem().cancelPayoutItem(itemId);
                             if (cancelResponse.statusCode() == 200) {
                                 System.out.println("Successfully cancelled unclaimed Payout item with id: " + itemId);
+
+                                //Run cancel failure scenario
+                                System.out.println("Simulate failure on cancelling an already cancelled Payout item with id: " + itemId);
+                                new CancelPayoutItem().cancelPayoutItem(itemId);
                             } else {
                                 System.out.println("Failed to cancel unclaimed Payout item with id: " + itemId);
                             }
@@ -55,5 +59,13 @@ public class RunAll {
                 System.out.println("Failed to retrieve Payout batch with id: " + batchId);
             }
         }
+
+        //Execute all failure cases
+        System.out.println("Create a payout with validation failure");
+        new CreatePayoutsBatch().createPayoutFailure();
+        System.out.println("Retrieving an invalid payout");
+        new GetPayoutBatch().getPayoutBatch("DUMMY");
+        System.out.println("Retrieving an invalid payout item");
+        new GetPayoutItem().getPayoutItem("DUMMY");
     }
 }

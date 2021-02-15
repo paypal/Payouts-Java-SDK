@@ -55,13 +55,13 @@ public class PayoutItemResponse {
      * The error details.
      */
     @SerializedName("errors")
-    private PayoutError errors;
+    private Error errors;
 
-    public PayoutError errors() {
+    public Error errors() {
         return errors;
     }
 
-    public PayoutItemResponse errors(PayoutError errors) {
+    public PayoutItemResponse errors(Error errors) {
         this.errors = errors;
         return this;
     }
