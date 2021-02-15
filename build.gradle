@@ -78,7 +78,7 @@ project(':payouts-sdk') {
                     name 'payouts-sdk'
                     groupId 'com.paypal.sdk'
                     artifactId 'payouts-sdk'
-                    version '1.0.0'
+                    version '1.1.0'
                     packaging 'jar'
                     description 'PayPal SDK for integrating with the Payouts REST APIs'
                     url 'https://github.com/paypal/Payouts-Java-SDK.git'
