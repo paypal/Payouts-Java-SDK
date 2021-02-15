@@ -105,6 +105,69 @@ public class CreatePayoutExample {
 }
 ```
 
+### Parsing Failure response
+This will create a Payout with validation failure to showcase how to parse the failed response entity. Refer samples for more scenarios
+
+```java
+package com.paypal;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.paypal.http.HttpResponse;
+import com.paypal.http.exceptions.HttpException;
+import com.paypal.payouts.*;
+
+public class CreatePayoutExample {
+	public static void main(String[] args) {
+
+		// Construct a request object and set desired parameters
+		// Here, CreatePayoutRequest() creates a POST request to /v1/payments/payouts
+		List<PayoutItem> items = IntStream
+                .range(1, 6)
+                .mapToObj(index -> new PayoutItem()
+                        .senderItemId("Test_txn_" + index)
+                        .note("Your 5$ Payout!")
+                        .receiver("payout-sdk-" + index + "@paypal.com")
+                        .amount(new Currency()
+                                .currency("USD")
+                                .value("1.0.0")))
+                .collect(Collectors.toList());
+
+        CreatePayoutRequest request = new CreatePayoutRequest()
+                .senderBatchHeader(new SenderBatchHeader()
+                        .senderBatchId("Test_sdk_" + RandomStringUtils.randomAlphanumeric(7))
+                        .emailMessage("SDK payouts test txn")
+                        .emailSubject("This is a test transaction from SDK")
+                        .note("Enjoy your Payout!!")
+                        .recipientType("EMAIL"))
+                .items(items);
+
+		try {
+			// Call API with your client and get a response for your call
+			PayoutsPostRequest httpRequest = new PayoutsPostRequest().requestBody(request);
+			Credentials.client.execute(httpRequest);
+		} catch (IOException ioe) {
+			if (ioe instanceof HttpException) {
+				// Something went wrong server-side
+				HttpException he = (HttpException) ioe;
+                
+				// Parse failure response to get the reason for failure
+				Encoder encoder = new Encoder();
+				Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
+				System.out.println(payoutError.name());
+				System.out.println(payoutError.details().get(0).field());
+				System.out.println(payoutError.details().get(0).issue());
+				he.headers().forEach(x -> System.out.println(x + " :" + he.headers().header(x)));
+			} else {
+				// Something went wrong client-side
+			}
+		}
+	}
+}
+```
+
 ### Retrieve a Payouts Batch
 This will retrieve a payouts batch
 ```java
