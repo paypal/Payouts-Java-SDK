@@ -105,7 +105,7 @@ public class CreatePayoutExample {
 }
 ```
 
-### Parsing Failure response
+### Handle API Failure
 This will create a Payout with validation failure to showcase how to parse the failed response entity. Refer samples for more scenarios
 
 ```java
