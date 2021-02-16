@@ -85,6 +85,8 @@ public class PayoutsPostTest extends TestHarness {
             ErrorDetails payoutErrorDetails = payoutError.details().get(0);
             assertNotNull(payoutErrorDetails.field());
             assertNotNull(payoutErrorDetails.issue());
+            assertNotNull(payoutErrorDetails.location());
+            assertEquals(payoutErrorDetails.location(), "body");
             assertNotNull(payoutErrorDetails);
         }
 

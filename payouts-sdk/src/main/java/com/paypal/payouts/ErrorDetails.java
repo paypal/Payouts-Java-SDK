@@ -59,7 +59,7 @@ public class ErrorDetails {
     private String location;
 
     public String location() {
-        return issue;
+        return location;
     }
 
     public ErrorDetails location(String location) {
