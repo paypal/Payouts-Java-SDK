@@ -26,7 +26,7 @@ public class PayoutsPostTest extends TestHarness {
                 .range(1, 6)
                 .mapToObj(index -> new PayoutItem()
                         .senderItemId("Test_txn_" + index)
-                        .note("Your 5$ Payout!")
+                        .note("Your 1$ Payout!")
                         .receiver("payout-sdk-" + index + "@paypal.com")
                         .amount(new Currency()
                                 .currency("USD")

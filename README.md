@@ -65,7 +65,7 @@ public class CreatePayoutExample {
                 .range(1, 6)
                 .mapToObj(index -> new PayoutItem()
                         .senderItemId("Test_txn_" + index)
-                        .note("Your 5$ Payout!")
+                        .note("Your 1$ Payout!")
                         .receiver("payout-sdk-" + index + "@paypal.com")
                         .amount(new Currency()
                                 .currency("USD")
@@ -128,7 +128,7 @@ public class CreatePayoutExample {
                 .range(1, 6)
                 .mapToObj(index -> new PayoutItem()
                         .senderItemId("Test_txn_" + index)
-                        .note("Your 5$ Payout!")
+                        .note("Your 1$ Payout!")
                         .receiver("payout-sdk-" + index + "@paypal.com")
                         .amount(new Currency()
                                 .currency("USD")
@@ -155,6 +155,7 @@ public class CreatePayoutExample {
                 
 				// Parse failure response to get the reason for failure
 				Encoder encoder = new Encoder();
+				String error = he.getMessage();
 				Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
 				System.out.println(payoutError.name());
 				System.out.println(payoutError.details().get(0).field());
