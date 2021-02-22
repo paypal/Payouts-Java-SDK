@@ -53,7 +53,7 @@ public class ErrorDetails {
 
     /**
      * REQUIRED
-     * The reason for the error.
+     * The location in request where error occurred.
      */
     @SerializedName("location")
     private String location;
