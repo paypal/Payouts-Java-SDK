@@ -51,10 +51,14 @@ public class CreatePayoutsBatch extends PayPalClient {
         try {
             client().execute(request);
         } catch (HttpException e) {
+            //Server side API failure
             String error = e.getMessage();
             Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
             System.out.println("Error Response Body:");
             System.out.println(new JSONObject(new Json().serialize(payoutError)).toString(4));
+        } catch (IOException e) {
+            //Client side failure
+            System.out.println(e);
         }
 
 

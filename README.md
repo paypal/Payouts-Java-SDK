@@ -148,22 +148,20 @@ public class CreatePayoutExample {
 			// Call API with your client and get a response for your call
 			PayoutsPostRequest httpRequest = new PayoutsPostRequest().requestBody(request);
 			Credentials.client.execute(httpRequest);
+		} catch (HttpException he) {
+		    // Something went wrong server-side
+                    // Parse failure response to get the reason for failure
+                    Encoder encoder = new Encoder();
+                    String error = he.getMessage();
+                    Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
+                    System.out.println(payoutError.name());
+                    System.out.println(payoutError.details().get(0).field());
+                    System.out.println(payoutError.details().get(0).issue());
+                    he.headers().forEach(x -> System.out.println(x + " :" + he.headers().header(x)));
 		} catch (IOException ioe) {
-			if (ioe instanceof HttpException) {
-				// Something went wrong server-side
-				HttpException he = (HttpException) ioe;
-                
-				// Parse failure response to get the reason for failure
-				Encoder encoder = new Encoder();
-				String error = he.getMessage();
-				Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
-				System.out.println(payoutError.name());
-				System.out.println(payoutError.details().get(0).field());
-				System.out.println(payoutError.details().get(0).issue());
-				he.headers().forEach(x -> System.out.println(x + " :" + he.headers().header(x)));
-			} else {
-				// Something went wrong client-side
-			}
+		    // Something went wrong client-side
+            
+                    System.out.println(ioe); 
 		}
 	}
 }
