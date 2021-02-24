@@ -66,21 +66,6 @@ public class PayoutBatchHeader {
     }
 
     /**
-     * The error information.
-     */
-    @SerializedName("errors")
-    private Error errors;
-
-    public Error errors() {
-        return errors;
-    }
-
-    public PayoutBatchHeader errors(Error errors) {
-        this.errors = errors;
-        return this;
-    }
-
-    /**
      * The currency and amount for a financial transaction, such as a balance or payment due.
      */
     @SerializedName("fees")

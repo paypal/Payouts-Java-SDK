@@ -1,16 +1,20 @@
 package com.paypal;
 
+import com.paypal.http.Encoder;
 import com.paypal.http.HttpResponse;
+import com.paypal.http.exceptions.HttpException;
 import com.paypal.http.serializer.Json;
-import com.paypal.payouts.CreatePayoutResponse;
-import com.paypal.payouts.PayoutBatch;
-import com.paypal.payouts.PayoutItemResponse;
-import com.paypal.payouts.PayoutsItemCancelRequest;
+import com.paypal.payouts.Error;
+import com.paypal.payouts.*;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class CancelPayoutItem extends PayPalClient {
+
+    private static final Encoder encoder = new Encoder();
 
     /**
      * Cancels an UNCLAIMED Payout item (POST - /v1/payments/payouts-item/{<item-id>}/cancel)
@@ -24,12 +28,25 @@ public class CancelPayoutItem extends PayPalClient {
     public HttpResponse<PayoutItemResponse> cancelPayoutItem(String itemId) throws IOException {
         PayoutsItemCancelRequest request = new PayoutsItemCancelRequest(itemId);
 
-        HttpResponse<PayoutItemResponse> response = client().execute(request);
+        try {
+            HttpResponse<PayoutItemResponse> response = client().execute(request);
 
-        System.out.println("Response Body:");
-        System.out.println(new JSONObject(new Json().serialize(response.result())).toString(4));
+            System.out.println("Response Body:");
+            System.out.println(new JSONObject(new Json().serialize(response.result())).toString(4));
 
-        return response;
+            return response;
+        } catch (HttpException e) {
+            //Server side API failure
+            String error = e.getMessage();
+            com.paypal.payouts.Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
+            System.out.println("Error Response Body:");
+            System.out.println(new JSONObject(new Json().serialize(payoutError)).toString(4));
+            return null;
+        } catch (IOException e) {
+            //Client side failure
+            System.out.println(e);
+            throw e;
+        }
     }
 
     /**
@@ -58,6 +75,9 @@ public class CancelPayoutItem extends PayPalClient {
         } while (i <= 5);
 
         if (i < 5) {
+            new CancelPayoutItem().cancelPayoutItem(getBatchResponse.result().items().get(0).payoutItemId());
+            //Simulate a failure scenario to show how to handle failure response
+            Thread.sleep(1000);
             new CancelPayoutItem().cancelPayoutItem(getBatchResponse.result().items().get(0).payoutItemId());
         } else {
             System.out.println("Payout create request is still not processed");

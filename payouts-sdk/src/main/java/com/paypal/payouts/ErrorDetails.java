@@ -50,4 +50,20 @@ public class ErrorDetails {
         this.issue = issue;
         return this;
     }
+
+    /**
+     * REQUIRED
+     * The location in request where error occurred.
+     */
+    @SerializedName("location")
+    private String location;
+
+    public String location() {
+        return location;
+    }
+
+    public ErrorDetails location(String location) {
+        this.location = location;
+        return this;
+    }
 }

@@ -37,21 +37,6 @@ public class PayoutBatch {
     }
 
     /**
-     * The error details.
-     */
-    @SerializedName("errors")
-    private PayoutError errors;
-
-    public PayoutError errors() {
-        return errors;
-    }
-
-    public PayoutBatch errors(PayoutError errors) {
-        this.errors = errors;
-        return this;
-    }
-
-    /**
      * An array of individual items.
      */
     @SerializedName(value = "items", listClass = PayoutBatchItem.class)

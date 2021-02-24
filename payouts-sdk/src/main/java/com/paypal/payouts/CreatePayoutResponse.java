@@ -37,21 +37,6 @@ public class CreatePayoutResponse {
     }
 
     /**
-     * The error details.
-     */
-    @SerializedName("errors")
-    private PayoutError errors;
-
-    public PayoutError errors() {
-        return errors;
-    }
-
-    public CreatePayoutResponse errors(PayoutError errors) {
-        this.errors = errors;
-        return this;
-    }
-
-    /**
      * An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).
      */
     @SerializedName(value = "links", listClass = LinkDescription.class)
