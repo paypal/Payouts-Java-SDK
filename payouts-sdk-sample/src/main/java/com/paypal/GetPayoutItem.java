@@ -39,7 +39,7 @@ public class GetPayoutItem extends PayPalClient {
             com.paypal.payouts.Error payoutError = encoder.deserializeResponse(new ByteArrayInputStream(error.getBytes(StandardCharsets.UTF_8)), Error.class, e.headers());
             System.out.println("Error Response Body:");
             System.out.println(new JSONObject(new Json().serialize(payoutError)).toString(4));
-            throw e;
+            return null;
         } catch (IOException e) {
             //Client side failure
             System.out.println(e);
