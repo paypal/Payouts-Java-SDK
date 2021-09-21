@@ -1,3 +1,7 @@
+### 1.1.1 (2021-09-21)
+
+* Updated PayPal HTTP package version from 1.0.2 -> 1.0.3
+
 ### 1.1.0 (2021-02-24)
 
 *  Remove unused error from CreatePayoutResponse ([8fe4a44](https://github.com/paypal/Payouts-Java-SDK/commit/8fe4a44b3f89c8ee988d5ab89d7ebe4d6c7b72a0)), closes [#13](https://github.com/paypal/Payouts-Java-SDK/issues/13)
